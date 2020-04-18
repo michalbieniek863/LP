@@ -1,0 +1,65 @@
+ORACLE LINUX VERSION 7.8 
+
+yum update 
+
+su - root
+
+cd /etc/yum.repos.d/
+
+wget http://yum.oracle.com/public-yum-ol7.repo
+
+vim public-yum-ol7.repo
+
+[ol7_latest]
+name=Oracle Linux $releasever Latest ($basearch)
+baseurl=http://yum.oracle.com/repo/OracleLinux/OL7/latest/$basearch/
+gpgkey=file:///etc/pki/rpm-gpg/RPM-GPG-KEY-oracle
+gpgcheck=1
+enabled=1
+
+[ol7_UEKR4]
+name=Latest Unbreakable Enterprise Kernel Release 4 for Oracle Linux $releasever ($basearch)
+baseurl=http://yum.oracle.com/repo/OracleLinux/OL7/UEKR4/$basearch/
+gpgkey=file:///etc/pki/rpm-gpg/RPM-GPG-KEY-oracle
+gpgcheck=1
+enabled=1
+
+[ol7_addons]
+name=Oracle Linux $releasever Add ons ($basearch)
+baseurl=http://yum.oracle.com/repo/OracleLinux/OL7/addons/$basearch/
+gpgkey=file:///etc/pki/rpm-gpg/RPM-GPG-KEY-oracle
+gpgcheck=1
+enabled=1
+
+yum install docker-engine
+
+/*zródło*/  https://blogs.oracle.com/virtualization/install-docker-on-oracle-linux-7-v2
+
+systemctl start docker 
+
+docker pull postgres:alpine
+
+docker images 
+
+docker run --name postgres-123 -e POSTGRES_PASSWORD=password -d postgres:alpine -p 5433 
+
+docker exec -it postgres-123 bash
+
+mkdir skrypty  
+
+exit 
+
+docker cp /skrypty/create.txt postgres-2:/skrypty/create.txt
+docker cp /skrypty/function.txt postgres-2:/skrypty/function.txt 
+
+docker exec -it postgres-123 bash 
+
+psql -p 5433 -U postgres
+
+\i /skrypty/create.txt
+\i /skrypty/function.txt
+
+
+
+
+
